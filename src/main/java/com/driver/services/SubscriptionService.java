@@ -32,17 +32,17 @@ public class SubscriptionService {
         SubscriptionType type =  subscription.getSubscriptionType() ;
         Integer cost = null ;
 
-        if(type.equals("BASIC")) cost = 500 + (200*no) ;
-        if(type.equals("PRO"))   cost = 800 + (250*no) ;
-        if(type.equals("ELITE")) cost = 1000 + (350*no) ;
+        if(type.equals(SubscriptionType.BASIC)) cost = 500 + (200*no) ;
+        if(type.equals(SubscriptionType.PRO))   cost = 800 + (250*no) ;
+        if(type.equals(SubscriptionType.ELITE)) cost = 1000 + (350*no) ;
 
         subscription.setTotalAmountPaid(cost);
 
         subscription.setNoOfScreensSubscribed(no);
-//        subscription.setStartSubscriptionDate();
+        subscription.setStartSubscriptionDate(new Date());
 
-        User user = new User() ;
-        user.setId(subscriptionEntryDto.getUserId());
+        User user = userRepository.findById(subscriptionEntryDto.getUserId()).get() ;
+        user.setSubscription(subscription);
         userRepository.save(user) ;
 
         subscriptionRepository.save(subscription) ;   // needed ?
@@ -57,9 +57,9 @@ public class SubscriptionService {
         //In all other cases just try to upgrade the subscription and tell the difference of price that user has to pay
         //update the subscription in the repository
 
-        User user = userRepository.getOne(userId) ;
+        User user = userRepository.findById(userId).get() ;
 
-        if(user.getSubscription().equals("BASIC")){
+        if(user.getSubscription().getSubscriptionType().equals(SubscriptionType.BASIC)){
             int screens = user.getSubscription().getNoOfScreensSubscribed() ;
             Integer newAmount = 800 + (250 * screens) ;
 
@@ -71,7 +71,7 @@ public class SubscriptionService {
             return newAmount - oldAmount ;
         }
 
-        if(user.getSubscription().equals("PRO")){
+        if(user.getSubscription().getSubscriptionType().equals(SubscriptionType.PRO)){
             int screens = user.getSubscription().getNoOfScreensSubscribed() ;
             Integer newAmount = 1000 + (350 * screens) ;
 
