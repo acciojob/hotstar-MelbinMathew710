@@ -45,7 +45,7 @@ public class SubscriptionService {
         user.setId(subscriptionEntryDto.getUserId());
         userRepository.save(user) ;
 
-        subscriptionRepository.save(subscription) ;
+        subscriptionRepository.save(subscription) ;   // needed ?
         return cost ;
 
 //        return null;
@@ -60,16 +60,27 @@ public class SubscriptionService {
         User user = userRepository.getOne(userId) ;
 
         if(user.getSubscription().equals("BASIC")){
+            int screens = user.getSubscription().getNoOfScreensSubscribed() ;
+            Integer newAmount = 800 + (250 * screens) ;
 
+            user.getSubscription().setTotalAmountPaid(newAmount);
+            userRepository.save(user) ;
+
+            return newAmount ;
         }
 
         if(user.getSubscription().equals("PRO")){
+            int screens = user.getSubscription().getNoOfScreensSubscribed() ;
+            Integer newAmount = 1000 + (350 * screens) ;
 
+            user.getSubscription().setTotalAmountPaid(newAmount);
+            userRepository.save(user) ;
+
+            return newAmount ;
         }
 
 
-
-        return null;
+        throw new Exception("Already the best Subscription") ;
     }
 
     public Integer calculateTotalRevenueOfHotstar(){
@@ -77,7 +88,13 @@ public class SubscriptionService {
         //We need to find out total Revenue of hotstar : from all the subscriptions combined
         //Hint is to use findAll function from the SubscriptionDb
 
-        return null;
+        List<Subscription> subscription = subscriptionRepository.findAll() ;
+        Integer TotalRevenueOfHotstar = 0 ;
+
+        for(Subscription i : subscription){
+            TotalRevenueOfHotstar += i.getTotalAmountPaid() ;
+        }
+        return TotalRevenueOfHotstar ;
     }
 
 }
