@@ -14,7 +14,7 @@ public class ProductionHouseService {
     ProductionHouseRepository productionHouseRepository;
 
     public Integer addProductionHouseToDb(ProductionHouseEntryDto productionHouseEntryDto){
-
+        productionHouseRepository.save(productionHouseEntryDto) ;
         return  null;
     }
 
