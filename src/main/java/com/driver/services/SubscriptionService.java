@@ -63,20 +63,24 @@ public class SubscriptionService {
             int screens = user.getSubscription().getNoOfScreensSubscribed() ;
             Integer newAmount = 800 + (250 * screens) ;
 
+            Integer oldAmount = user.getSubscription().getTotalAmountPaid(); ;
+
             user.getSubscription().setTotalAmountPaid(newAmount);
             userRepository.save(user) ;
 
-            return newAmount ;
+            return newAmount - oldAmount ;
         }
 
         if(user.getSubscription().equals("PRO")){
             int screens = user.getSubscription().getNoOfScreensSubscribed() ;
             Integer newAmount = 1000 + (350 * screens) ;
 
+            Integer oldAmount = user.getSubscription().getTotalAmountPaid(); ;
+
             user.getSubscription().setTotalAmountPaid(newAmount);
             userRepository.save(user) ;
 
-            return newAmount ;
+            return newAmount - oldAmount ;
         }
 
 
