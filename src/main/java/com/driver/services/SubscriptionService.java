@@ -41,6 +41,10 @@ public class SubscriptionService {
         subscription.setNoOfScreensSubscribed(no);
 //        subscription.setStartSubscriptionDate();
 
+        User user = new User() ;
+        user.setId(subscriptionEntryDto.getUserId());
+        userRepository.save(user) ;
+
         subscriptionRepository.save(subscription) ;
         return cost ;
 
@@ -52,6 +56,18 @@ public class SubscriptionService {
         //If you are already at an ElITE subscription : then throw Exception ("Already the best Subscription")
         //In all other cases just try to upgrade the subscription and tell the difference of price that user has to pay
         //update the subscription in the repository
+
+        User user = userRepository.getOne(userId) ;
+
+        if(user.getSubscription().equals("BASIC")){
+
+        }
+
+        if(user.getSubscription().equals("PRO")){
+
+        }
+
+
 
         return null;
     }

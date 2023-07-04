@@ -1,6 +1,5 @@
 package com.driver.services;
 
-
 import com.driver.EntryDto.ProductionHouseEntryDto;
 import com.driver.model.ProductionHouse;
 import com.driver.repository.ProductionHouseRepository;
@@ -18,9 +17,7 @@ public class ProductionHouseService {
         productionHouse.setName(productionHouseEntryDto.getName());
         productionHouse.setRatings(0);
         productionHouseRepository.save(productionHouse) ;
-        return  null;
+        return productionHouse.getId();
     }
-
-
 
 }
